@@ -1,5 +1,3 @@
-setwd("~/Library/CloudStorage/Dropbox/AC Trajectory Genomic Data/LOO_palrallemism_test")
-
 # ===============================================================
 # Manhattan plots for A>C and C>A global results
 # Significance: FDR < 0.05
