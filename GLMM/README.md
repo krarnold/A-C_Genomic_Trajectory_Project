@@ -1,1 +1,1 @@
-Scripts to analyze the genomic data from the A-type and C-type populations. Input file can be found in the dryad directory associated with this project.
+This folder contains R scripts that perform genome-wide binomial GLMM association tests on pooled sequencing allele counts to identify SNPs that differ between “old” vs “new” replicate sets within A-type and C-type backgrounds, followed by a plotting script that generates faceted Manhattan-style plots with Bonferroni-corrected significance thresholds.
