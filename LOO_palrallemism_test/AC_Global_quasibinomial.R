@@ -4,9 +4,6 @@
 #     1) AC_results_all.csv  (per-SNP GLM results, chr 4 excluded)
 # ===============================================================
 
-setwd("~/Library/CloudStorage/Dropbox/AC Trajectory Genomic Data/LOO_palrallemism_test")
-set.seed(123)
-
 # --- Libraries ---
 library(dplyr)
 library(tidyr)
