@@ -1,0 +1,1 @@
+This folder contains scripts for allele-frequency-spectrum (AFS) style summaries using deep-sequencing allele frequencies to evaluate how “pseudo-fixed” sites (identified from pooled-seq/GLM significance) behave in independently generated deep-seq data.
