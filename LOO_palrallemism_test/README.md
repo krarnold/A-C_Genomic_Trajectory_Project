@@ -1,1 +1,1 @@
-
+This folder contains scripts to (i) run genome-wide per-SNP quasibinomial GLMs for allele-frequency change across generations (a “Bitter-style” global parallelism scan), and (ii) quantify parallelism via leave-one-out (LOO) validation by asking whether SNPs called significant in training replicates show larger allele-frequency shifts in a held-out replicate than matched random controls. It also includes visualization and inference (Manhattan plots; t-tests of LOO medians).
