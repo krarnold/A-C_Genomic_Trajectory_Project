@@ -1,8 +1,3 @@
-# ===============================
-# Master PCA + Mixed-Effect Model Script with Single Timepoint + CSV Export
-# and Flexible Faceted PCA Plot
-# ===============================
-
 # --- Libraries ---
 library(dplyr)
 library(tidyr)
@@ -12,9 +7,7 @@ library(lmerTest)
 library(broom.mixed)
 library(scales)
 
-# ===============================
 # 1) Read and clean SNP data
-# ===============================
 
 data <- read.csv("SNP_Table/AC_trajectory_modified_snp_table.csv", header = TRUE)
 data <- data[, c("chr", "pos", grep("_24_", names(data), value = TRUE))]
@@ -57,9 +50,9 @@ for (s in samples) {
   freq[[s]] <- k / n
 }
 
-# ===============================
+
 # 2) PCA on SNP frequencies
-# ===============================
+
 freq_mat <- as.matrix(freq[, -c(1,2)])
 freq_mat <- t(freq_mat)
 pca_res <- prcomp(freq_mat, center = FALSE, scale. = TRUE)
@@ -78,25 +71,25 @@ pc_df <- data.frame(
   year = meta$year
 )
 
-# ===============================
+
 # 3) Clean metadata & create group variable
-# ===============================
+
 pc_df$group <- ifelse(grepl("^A\\d+", pc_df$sample), "A",
                       ifelse(grepl("^C\\d+", pc_df$sample), "C",
                              ifelse(grepl("^A>C", pc_df$sample), "A>C",
                                     ifelse(grepl("^C>A", pc_df$sample), "C>A", NA))))
 pc_df$group <- factor(pc_df$group, levels = c("A>C", "C>A", "C", "A"))
 
-# ===============================
+
 # 3b) Create population variable for random effect
-# ===============================
+
 # Use replicate number as population
 pc_df$population <- sub(".*?(\\d+)_.*", "\\1", pc_df$sample)
 pc_df$population <- factor(pc_df$population)
 
-# ===============================
+
 # 4) Fit linear models for PCs with group as predictor (single timepoint)
-# ===============================
+
 pc_names <- paste0("PC", 1:n_pcs)
 results_list <- list()
 
@@ -110,9 +103,9 @@ for (pc in pc_names) {
 
 results_all <- bind_rows(results_list)
 
-# ===============================
+
 # 5) Bonferroni correction and PC ordering
-# ===============================
+
 n_tests <- nrow(results_all)
 results_clean <- results_all %>%
   mutate(
@@ -127,16 +120,16 @@ results_clean <- results_all %>%
 sig_results <- results_clean %>% filter(p.adj < 0.005)
 
 
-# ===============================
+
 # 6) Export tables as CSV
-# ===============================
+
 write.csv(results_clean, "Endpoint_AllPCs_Bonferroni.csv", row.names = FALSE)
 write.csv(sig_results, "Endpoint_SigPCs_Bonferroni.csv", row.names = FALSE)
 
 
-# ===============================
+
 # 7) PCA plot with colored groups and ellipses
-# ===============================
+
 
 # Filter only year 24
 pc24 <- pc_df[pc_df$year == "24", ]
@@ -187,4 +180,5 @@ ggsave(
   width = 14,
   height = 10
 )
+
 
