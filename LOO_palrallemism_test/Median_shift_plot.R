@@ -2,8 +2,6 @@
 #  Parallelism LOO Results - t-tests + Visualization (median shift)
 # ===============================================================
 
-setwd("~/Library/CloudStorage/Dropbox/AC Trajectory Genomic Data/LOO_palrallemism_test")
-
 library(dplyr)
 library(broom)
 library(readr)
@@ -129,5 +127,6 @@ p <- ggplot(combined, aes(x = Treatment, y = median_delta, color = category, sha
   )
 
 ggsave("LOO_median_parallelism.svg", p, width = 10, height = 7, device = "svg")
+
 
 
