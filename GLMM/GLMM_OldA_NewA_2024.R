@@ -1,6 +1,3 @@
-#setwd("C:/Users/kenne/Dropbox/AC_trajectory_genomic_data")
-
-setwd("~/Library/CloudStorage/Dropbox/AC Trajectory Genomic Data")
 
 # Load required packages
 library(lme4)
