@@ -1,5 +1,5 @@
 # ===============================================================
-#  C>A Global Parallelism Scan (Bitter-style, quasibinomial)
+#  C>A Global Parallelism Scan
 #  Output:
 #     1) CA_results_all.csv  (per-SNP GLM results, chr 4 excluded)
 # ===============================================================
