@@ -8,8 +8,6 @@
 #     AC_LOO_medians.csv  (median Δp for targets vs random controls)
 # ===============================================================
 
-setwd("~/Library/CloudStorage/Dropbox/AC Trajectory Genomic Data/LOO_palrallemism_test")
-set.seed(123)
 
 # --- Libraries ---
 library(dplyr)
