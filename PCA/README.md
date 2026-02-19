@@ -1,1 +1,1 @@
-
+This folder contains R scripts that (1) convert Pool-seq minor-count/coverage columns into allele-frequency matrices, (2) run PCA across samples, and (3) test trajectory effects using linear / mixed-effects models, producing publication-ready plots and CSV result tables.
