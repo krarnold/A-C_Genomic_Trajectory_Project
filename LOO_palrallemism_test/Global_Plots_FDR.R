@@ -1,9 +1,3 @@
-# ===============================================================
-# Manhattan plots for A>C and C>A global results
-# Significance: FDR < 0.05
-# Labeled panels: A. A to C Trajectory / B. C to A Trajectory
-# ===============================================================
-
 library(dplyr)
 library(ggplot2)
 library(patchwork)
@@ -27,24 +21,25 @@ process_for_manhattan <- function(df, label) {
 AC_plot_data <- process_for_manhattan(AC_global, "A>C")
 CA_plot_data <- process_for_manhattan(CA_global, "C>A")
 
+# --- Define significance thresholds ---
+thr05 <- -log10(0.05)
+thr01 <- -log10(0.01)
+
 # --- Plot function ---
 make_manhattan <- function(df, title_label) {
-  ggplot(df, aes(x = pos, y = neglog10fdr, color = chr)) +
+  ggplot(df, aes(x = pos, y = neglog10p, color = chr)) +
     
-    # ---- 1. Points first ----
-  geom_point(size = 0.5, alpha = 0.7) +
+    geom_point(size = 0.5, alpha = 0.7) +
     
-    # ---- 2. Threshold lines drawn last (on top) ----
-  geom_hline(yintercept = thr05, linetype = "dashed",
-             color = "black", linewidth = 0.65, inherit.aes = FALSE) +
+    geom_hline(yintercept = thr05, linetype = "dashed",
+               color = "black", linewidth = 0.65, inherit.aes = FALSE) +
     geom_hline(yintercept = thr01, linetype = "dashed",
                color = "gray40", linewidth = 0.65, inherit.aes = FALSE) +
     
-    # ---- 3. Labels for the lines (also on top) ----
-  annotate("text", x = -Inf, y = thr05, label = "0.05",
-           hjust = -0.1, vjust = -0.5, size = 3.2, color = "black",
-           inherit.aes = FALSE) +
-    annotate("text", x = -Inf, y = thr01, label = "0.01",
+    annotate("text", x = -Inf, y = thr05, label = "FDR = 0.05",
+             hjust = -0.1, vjust = -0.5, size = 3.2, color = "black",
+             inherit.aes = FALSE) +
+    annotate("text", x = -Inf, y = thr01, label = "FDR = 0.01",
              hjust = -0.1, vjust = -0.5, size = 3.2, color = "gray40",
              inherit.aes = FALSE) +
     
@@ -70,16 +65,14 @@ make_manhattan <- function(df, title_label) {
     )
 }
 
-
 # --- Build labeled plots ---
 p_AC <- make_manhattan(AC_plot_data, "A. A to C Trajectory")
 p_CA <- make_manhattan(CA_plot_data, "B. C to A Trajectory")
 
 # --- Combine into two rows ---
-combined_plot <- p_AC / p_CA 
+combined_plot <- p_AC / p_CA
 
-# --- Display and save ---
-#print(combined_plot)
-
-ggsave("Global_Manhattan_AC_CA_FDR05_labeled.png",
-       combined_plot, width = 15, height = 8, dpi = 300)
+# --- Save ---
+ggsave("Global_Manhattan_AC_CA_FDR05_labeled.tiff",
+       combined_plot, width = 15, height = 8,
+       dpi = 300, compression = "lzw")
