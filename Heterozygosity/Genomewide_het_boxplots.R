@@ -7,8 +7,7 @@ library(stringr)
 # Read in data
 data <- read.csv("SNP_Table/AC_trajectory_modified_snp_table.csv", header = TRUE)
 
-# Remove columns corresponding to 24th timepoint if present (you later remap _24 anyway)
-# NOTE: If you truly want to keep endpoints, comment this block out.
+# Remove columns corresponding to 24th timepoint if present
 cols_to_remove <- grep("^(ACO|AO|CO|NCO)[0-9]_24", names(data), value = TRUE)
 data <- data[, !names(data) %in% cols_to_remove]
 
@@ -95,7 +94,6 @@ het_summary <- data_long %>%
 
 #Compare each intermediate to Generation 0
 
-# Fixed function: treatment_name argument is not shadowed
 get_pval_label <- function(df, treatment_name, before_gen, after_gen) {
   het_before <- df %>%
     filter(treatment == treatment_name, generation == before_gen) %>%
@@ -105,7 +103,6 @@ get_pval_label <- function(df, treatment_name, before_gen, after_gen) {
     filter(treatment == treatment_name, generation == after_gen) %>%
     pull(mean_heterozygosity)
   
-  # Guardrails: if missing timepoints, return NA row
   if (length(het_before) < 2 || length(het_after) < 2) {
     return(data.frame(
       treatment = treatment_name,
@@ -157,7 +154,7 @@ labels_df <- comparisons %>%
   do(get_pval_label(het_summary, .$treatment, .$before, .$after)) %>%
   ungroup()
 
-# Multiple-testing correction within each treatment (Holm)
+# Multiple-testing correction within each treatment
 labels_df <- labels_df %>%
   group_by(treatment) %>%
   mutate(
@@ -172,8 +169,6 @@ labels_df <- labels_df %>%
   ) %>%
   ungroup()
 
-
-# Plot helpers
 
 # Ensure consistent ordering within each facet
 gen_levels <- sort(unique(het_summary$generation))
@@ -190,7 +185,7 @@ labels_df <- labels_df %>%
   mutate(after_f = factor(after, levels = gen_levels))
 
 
-# Plot 1: quick view (all timepoints)
+# Plot 1: Quick view (all timepoints)
 het_boxplot_quick <- ggplot(
   het_summary,
   aes(x = generation_f, y = mean_heterozygosity, fill = treatment)
@@ -216,7 +211,7 @@ het_boxplot_quick <- ggplot(
 print(het_boxplot_quick)
 
 
-# Plot 2: publication SVG (all timepoints + stars)
+# Plot 2: SVG (All timepoints)
 het_boxplot_svg <- ggplot(
   het_summary,
   aes(x = generation_f, y = mean_heterozygosity, fill = treatment)
@@ -257,3 +252,4 @@ ggsave(
   height = 8,
   units = "in"
 )
+
