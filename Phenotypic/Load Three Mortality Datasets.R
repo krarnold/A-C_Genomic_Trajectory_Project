@@ -4,9 +4,9 @@ data_dir <- "."
 library(readxl)
 library(ggplot2)
 
-mortality <- read.table(file.path(data_dir, "winter2019.txt"), header = TRUE)
-mortality2020 <- read.table(file.path(data_dir, "Winter2020Mortality2.txt"), header = TRUE)
-mortality2023 <- read.csv(file.path(data_dir, "Winter_Spring 2023 Mortality RAW Data.csv"), header = TRUE)
+mortality <- read.csv(file.path(data_dir, "Mortality_2019.csv"), header = TRUE)
+mortality2020 <- read.csv(file.path(data_dir, "Mortality_2020.csv"), header = TRUE)
+mortality2023 <- read.csv(file.path(data_dir, "Mortality_2023.csv"), header = TRUE)
 
 numRows <- length(mortality$Alive)
 mortality$AlivePerc <- vector(length = numRows)
@@ -121,8 +121,6 @@ mortality2023$SimpleSel[mortality2023$Selection == "ANCO"] <- "newA"
 
 mortality2023$SelYear[mortality2023$SimpleSel == "newC"] <- "New C 2023"
 mortality2023$SelYear[mortality2023$SimpleSel == "newA"] <- "New A 2023"
-
-mortality2023$Fecundity <- FALSE
 
 mortality2023$SelPops <- paste(mortality2023$Selection, mortality2023$Population)
 
