@@ -1,8 +1,10 @@
+# Set data_dir to the path of your local data directory
+data_dir <- "."
+
 library(ggplot2)
 library(data.table)
 library(gridExtra)
 library(nlme)
-library(readxl)
 
 se <- function(data) {
   sd(data) / sqrt(length(data))
@@ -24,7 +26,7 @@ meanDevelopment2 <- function(df) {
   temp
 }
 
-pupa2024 <- read_excel("Pupariation_2024.xlsx")
+pupa2024 <- read.csv(file.path(data_dir, "Pupariation_2024.csv"))
 
 pupa2024$totalIndDev <- rowSums(pupa2024[, 7:9])
 pupa2024$popCumSum <- rowSums(pupa2024[,4:6])
