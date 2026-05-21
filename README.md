@@ -1,7 +1,7 @@
 # A-C Genomic Trajectory Project
 
 Scripts used for the manuscript "Beyond Fixation: Persistent Genetic 
-Variation Under Intense Selection" (DOI: placeholder).
+Variation Under Intense Selection" (10.64898/2026.03.02.706684).
 
 ## Repository Structure
 
